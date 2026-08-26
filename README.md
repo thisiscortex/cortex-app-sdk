@@ -26,35 +26,34 @@ host happens to have wired up.
 
 ## Installing
 
-This package is distributed from git, not from the npm registry:
-
 ```json
 {
   "dependencies": {
-    "@cortex/app-sdk": "github:appfactory123/cortex-app-sdk#semver:^0.1.0"
+    "@cortex/app-sdk": "github:appfactory123/cortex-app-sdk#v0.1.1"
   }
 }
 ```
 
-npm resolves that range against the repository's tags and records the exact
-commit in your lockfile, so a git dependency is pinned more tightly than a
-registry version — a tag can be moved upstream, a commit cannot.
+**Pin an exact tag, not a range.** `#semver:^0.1.1` works under npm but fails
+under bun, which does not parse semver ranges for git dependencies — it passes
+the literal string through as a git ref:
+
+```
+bun add "github:appfactory123/cortex-app-sdk#semver:^0.1.1"
+  → GET https://codeload.github.com/.../legacy.tar.gz/semver:%5E0.1.1
+```
+
+An exact tag installs cleanly under both, and npm still records the resolved
+commit in your lockfile — so a tag pin is a commit pin in practice. That is the
+same rule Cortex applies to a manifest's `install.npm.version`: a range is not
+a pin.
+
+The repository is public, so no token, SSH key or `.npmrc` is needed — `npm
+install` and `bun install` reach it the same way they reach any public
+dependency.
 
 The package needs no build step: it is plain ESM with hand-written types and no
 dependencies, so installing straight from git costs you no toolchain.
-
-### Private repository
-
-npm shells out to `git`, so authentication is whatever your machine already
-uses — nothing extra to configure per project:
-
-- **https** (`github:` shorthand) uses your git credential helper, e.g.
-  `osxkeychain` on macOS, or the helper `gh auth login` installs.
-- **ssh** works too, if you prefer keys:
-  `git+ssh://git@github.com/appfactory123/cortex-app-sdk.git#semver:^0.1.0`
-
-In CI, provide a token the same way you would for `git clone` — for example
-`git config --global url."https://x-access-token:$TOKEN@github.com/".insteadOf "https://github.com/"`.
 
 ## Releasing
 
@@ -63,11 +62,14 @@ in the same commit as the host method table it mirrors
 (`lib/appstore/host-bridge/capabilities.ts`) — they cannot drift apart while
 they ship together.
 
-npm's git URL grammar has no subdirectory form, so the package is split out to
-its own repository before it can be installed from git:
+npm's git URL grammar accepts only `#<commit-ish>` and `#semver:<range>` — there
+is no subdirectory form — so the package is split out to its own repository
+before it can be installed from git. Pointing a dependency at a monorepo
+subdirectory does not fail loudly; npm installs the repository ROOT under the
+dependency's name, and the breakage only surfaces at import time.
 
 ```sh
-scripts/release-app-sdk.sh git@github.com:appfactory123/cortex-app-sdk.git
+scripts/release-app-sdk.sh https://github.com/appfactory123/cortex-app-sdk.git
 ```
 
 That script refuses to release a version tag that already exists, a dirty

@@ -1,16 +1,20 @@
 {
   "name": "@cortex/app-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Call Cortex host functions from a Cortex App Store app — and keep running when Cortex is not there.",
-  "keywords": ["cortex", "app-store", "sdk", "host-bridge"],
+  "keywords": [
+    "cortex",
+    "app-store",
+    "sdk",
+    "host-bridge"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appfactory123/Cortex-AI.git",
-    "directory": "packages/app-sdk"
+    "url": "git+https://github.com/appfactory123/cortex-app-sdk.git"
   },
-  "homepage": "https://github.com/appfactory123/Cortex-AI/tree/main/packages/app-sdk#readme",
-  "bugs": "https://github.com/appfactory123/Cortex-AI/issues",
+  "homepage": "https://github.com/appfactory123/cortex-app-sdk#readme",
+  "bugs": "https://github.com/appfactory123/cortex-app-sdk/issues",
   "type": "module",
   "main": "index.mjs",
   "types": "index.d.ts",
@@ -20,8 +24,15 @@
       "import": "./index.mjs"
     }
   },
-  "files": ["index.mjs", "index.d.ts", "README.md", "LICENSE"],
-  "engines": { "node": ">=20" },
+  "files": [
+    "index.mjs",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "publishConfig": {
     "access": "public"
   },
