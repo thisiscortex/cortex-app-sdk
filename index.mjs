@@ -122,6 +122,10 @@ export async function connectHost(options = {}) {
       request: (params) => call('approvals.request', params),
     },
 
+    events: {
+      next: (params = {}) => call('events.next', params),
+    },
+
     notify: (params) => call('notify', params),
 
     /** Escape hatch for methods added after this SDK version. */

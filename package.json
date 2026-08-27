@@ -1,6 +1,6 @@
 {
   "name": "@cortex/app-sdk",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Call Cortex host functions from a Cortex App Store app — and keep running when Cortex is not there.",
   "keywords": [
     "cortex",
@@ -22,11 +22,17 @@
     ".": {
       "types": "./index.d.ts",
       "import": "./index.mjs"
+    },
+    "./browser": {
+      "types": "./browser.d.ts",
+      "import": "./browser.mjs"
     }
   },
   "files": [
     "index.mjs",
     "index.d.ts",
+    "browser.mjs",
+    "browser.d.ts",
     "README.md",
     "LICENSE"
   ],

@@ -17,6 +17,13 @@ export interface Host {
   readonly llm: { complete(params: Record<string, unknown>): Promise<unknown> };
   readonly session: { startTurn(params: Record<string, unknown>): Promise<unknown> };
   readonly approvals: { request(params: Record<string, unknown>): Promise<unknown> };
+  readonly events: {
+    next(params?: { after?: string; timeoutMs?: number }): Promise<{
+      events: Array<{ id: string; type: 'turn.completed'; occurredAt: string; cwd: string }>;
+      cursor: string | null;
+      reset: boolean;
+    }>;
+  };
   notify(params: { title: string; body?: string }): Promise<unknown>;
   /** Escape hatch for methods added after this SDK version. */
   call(method: string, params?: Record<string, unknown>): Promise<unknown>;

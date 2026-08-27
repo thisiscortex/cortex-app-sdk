@@ -29,18 +29,18 @@ host happens to have wired up.
 ```json
 {
   "dependencies": {
-    "@cortex/app-sdk": "github:appfactory123/cortex-app-sdk#v0.1.1"
+    "@cortex/app-sdk": "github:appfactory123/cortex-app-sdk#v0.2.0"
   }
 }
 ```
 
-**Pin an exact tag, not a range.** `#semver:^0.1.1` works under npm but fails
+**Pin an exact tag, not a range.** `#semver:^0.2.0` works under npm but fails
 under bun, which does not parse semver ranges for git dependencies — it passes
 the literal string through as a git ref:
 
 ```
-bun add "github:appfactory123/cortex-app-sdk#semver:^0.1.1"
-  → GET https://codeload.github.com/.../legacy.tar.gz/semver:%5E0.1.1
+bun add "github:appfactory123/cortex-app-sdk#semver:^0.2.0"
+  → GET https://codeload.github.com/.../legacy.tar.gz/semver:%5E0.2.0
 ```
 
 An exact tag installs cleanly under both, and npm still records the resolved
