@@ -1,6 +1,6 @@
 {
   "name": "@cortex/app-sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Call Cortex host functions from a Cortex App Store app — and keep running when Cortex is not there.",
   "keywords": [
     "cortex",
@@ -26,6 +26,10 @@
     "./browser": {
       "types": "./browser.d.ts",
       "import": "./browser.mjs"
+    },
+    "./ag-ui": {
+      "types": "./ag-ui.d.ts",
+      "import": "./ag-ui.mjs"
     }
   },
   "files": [
@@ -34,7 +38,9 @@
     "browser.mjs",
     "browser.d.ts",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "ag-ui.mjs",
+    "ag-ui.d.ts"
   ],
   "engines": {
     "node": ">=20"

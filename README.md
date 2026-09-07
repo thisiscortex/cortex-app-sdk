@@ -1,5 +1,36 @@
 # @cortex/app-sdk
 
+The in-tree version is **0.3.0**. Its new process-only AG-UI entrypoint requires
+Cortex App API **1.4** and the manifest permission `llm:invoke`:
+
+```js
+import { connectAgUi } from '@cortex/app-sdk/ag-ui';
+
+const cortex = connectAgUi();
+if (!cortex) throw new Error('Start this app through Cortex.');
+const abortController = new AbortController();
+const result = await cortex.run({
+  threadId: 'research-thread',
+  runId: crypto.randomUUID(),
+  messages: [{ role: 'user', content: 'Summarize the supplied research.' }],
+  tools: [],
+}, { signal: abortController.signal, onEvent: event => console.log(event.type) });
+```
+
+`provider()` reads the effective Cortex selection without invoking an LLM.
+`run()` observes authenticated AG-UI SSE and returns text, app-tool calls,
+selection and events. The app executes its own offered tools and validates
+their arguments. Host/provider credentials never enter a renderer.
+The current isolated app-inference adapters support Claude, Codex and Grok;
+other Cortex provider selections return an explicit unsupported error.
+Cancellation and host revocation abort provider work. This API never falls
+back to a separate provider API key.
+
+Use a published exact SDK tag for distribution. Before 0.3.0 is published,
+the Vibe-Trading wrapper ships a byte-recorded MIT source snapshot rather
+than referring to a nonexistent tag. Existing 0.2.0 installation examples
+below remain valid for the earlier namespaces.
+
 The app side of the Cortex host bridge.
 
 ```js
