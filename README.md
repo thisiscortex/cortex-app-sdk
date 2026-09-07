@@ -106,3 +106,19 @@ scripts/release-app-sdk.sh https://github.com/appfactory123/cortex-app-sdk.git
 That script refuses to release a version tag that already exists, a dirty
 working tree, or a LICENSE still carrying its placeholder, and runs
 `verify:appstore-sdk-package` before anything leaves the machine.
+
+## Mandatory app approvals (host API 1.5)
+
+`host.approvals.request({requestId, tool, arguments, expiresAt})` uses the existing
+process-only RPC method and requires the manifest permission
+`approvals:request`. API 1.5 binds it to a Cortex native dialog. The host stamps
+the app identity. A positive result echoes the request ID, tool, arguments and
+expiry with `approved:true`; compare all fields to a prepared immutable action
+and consume it once. Denial, expiry or unavailable desktop never grants access.
+Full/remembered session permissions do not bypass this dialog.
+
+The generic SDK method uses its configured timeout and has no per-call
+AbortSignal option. A client implementing cancellable approval RPC must follow
+the SDK's `unix:`/`npipe:` endpoint framing, retain the private token header,
+bound its response, and destroy the socket on Stop. It must not discover another
+host or expose an approval-response endpoint to the renderer/model.
