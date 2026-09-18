@@ -24,6 +24,30 @@ export interface Host {
       reset: boolean;
     }>;
   };
+  readonly models: {
+    ensure(modelId: string): Promise<{
+      id: string;
+      required: boolean;
+      key: string;
+      path: string;
+      alreadyPresent: boolean;
+      downloadedBytes: number;
+    }>;
+    status(modelId: string): Promise<{
+      id: string;
+      key: string;
+      required: boolean;
+      declaredSizeBytes: number;
+      busy: boolean;
+      present: boolean;
+      path: string | null;
+      sizeBytes: number;
+    }>;
+  };
+  readonly ollama: {
+    lease(): Promise<{ leaseId: string; baseUrl: string; openaiBaseUrl: string }>;
+    release(leaseId: string): Promise<{ leaseId: string; released: true }>;
+  };
   notify(params: { title: string; body?: string }): Promise<unknown>;
   /** Escape hatch for methods added after this SDK version. */
   call(method: string, params?: Record<string, unknown>): Promise<unknown>;

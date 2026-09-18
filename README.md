@@ -1,6 +1,6 @@
 # @cortex/app-sdk
 
-The in-tree version is **0.3.0**. Its new process-only AG-UI entrypoint requires
+The in-tree version is **0.4.0**. Its process-only AG-UI entrypoint requires
 Cortex App API **1.4** and the manifest permission `llm:invoke`:
 
 ```js
@@ -49,6 +49,22 @@ if (host) {
 `connectHost()` returns `null` whenever `CORTEX_HOST_ENDPOINT`, `CORTEX_HOST_TOKEN`
 and `CORTEX_APP_ID` are not all present. That null branch is the contract that
 keeps an App Store app runnable on its own — test it, don't assume it.
+
+## Shared models (App API 1.9)
+
+Declare each model in `cortex-app.json` and request `models:ensure` before
+calling `host.models.ensure('declaration-id')`. Cortex accepts only that
+declaration id, verifies/downloads the pinned bytes into the machine-wide
+store once, and records this app as a consumer. `host.models.status(id)` is
+read-only. An app must not pass a repository, URL, revision, hash or output
+path at call time.
+
+`models:ollama` unlocks `host.ollama.lease()` and
+`host.ollama.release(leaseId)`. A lease returns the shared native and
+OpenAI-compatible loopback URLs; leases are scoped to the app that acquired
+them. A process may also use the stack environment pointers
+`CORTEX_MODELS_HF_HUB_CACHE`, `CORTEX_MODELS_GGUF_DIR`,
+`CORTEX_MODELS_GGML_DIR`, and `CORTEX_OLLAMA_BASE_URL`.
 
 A call is refused with `HostError.code === 'permission_denied'` when the app's
 `cortex-app.json` did not declare the permission that method costs. Permissions

@@ -126,6 +126,16 @@ export async function connectHost(options = {}) {
       next: (params = {}) => call('events.next', params),
     },
 
+    models: {
+      ensure: (modelId) => call('models.ensure', { modelId }),
+      status: (modelId) => call('models.status', { modelId }),
+    },
+
+    ollama: {
+      lease: () => call('ollama.lease', {}),
+      release: (leaseId) => call('ollama.release', { leaseId }),
+    },
+
     notify: (params) => call('notify', params),
 
     /** Escape hatch for methods added after this SDK version. */
