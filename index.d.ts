@@ -49,6 +49,17 @@ export interface Host {
     release(leaseId: string): Promise<{ leaseId: string; released: true }>;
   };
   notify(params: { title: string; body?: string }): Promise<unknown>;
+  /** API 1.12: heartbeat a long-running program's status to the user. */
+  readonly program: {
+    status(params: {
+      state: 'running' | 'stopped' | 'error';
+      label?: string;
+      detail?: string;
+      subscriptions?: number;
+      lastEventAt?: string;
+      bindings?: string[];
+    }): Promise<unknown>;
+  };
   /** Escape hatch for methods added after this SDK version. */
   call(method: string, params?: Record<string, unknown>): Promise<unknown>;
 }

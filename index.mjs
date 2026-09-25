@@ -138,6 +138,11 @@ export async function connectHost(options = {}) {
 
     notify: (params) => call('notify', params),
 
+    /** API 1.12: heartbeat a long-running program's status to the user. */
+    program: {
+      status: (params) => call('program.status', params),
+    },
+
     /** Escape hatch for methods added after this SDK version. */
     call,
   };
