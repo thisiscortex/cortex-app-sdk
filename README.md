@@ -1,6 +1,6 @@
 # @cortex/app-sdk
 
-The in-tree version is **0.4.0**. Its process-only AG-UI entrypoint requires
+The in-tree version is **0.5.0**. Its process-only AG-UI entrypoint requires
 Cortex App API **1.4** and the manifest permission `llm:invoke`:
 
 ```js
@@ -49,6 +49,21 @@ if (host) {
 `connectHost()` returns `null` whenever `CORTEX_HOST_ENDPOINT`, `CORTEX_HOST_TOKEN`
 and `CORTEX_APP_ID` are not all present. That null branch is the contract that
 keeps an App Store app runnable on its own — test it, don't assume it.
+
+## Resuming a session and program status (App API 1.12)
+
+`host.session.startTurn({ binding, message, memory? })` resumes the Cortex
+session named by `binding`, the opaque `CORTEX_APP_SESSION_BINDING` your MCP
+process received in that session (manifest permission `session:write`). Cortex
+refuses a binding it did not mint for your app. The answer is
+`{ status: 'started' | 'busy' | 'rejected' }`. On `busy` another turn holds the
+session, so retry later; the resume route does not queue.
+
+`host.program.status({ state, label?, detail?, subscriptions?, lastEventAt?,
+bindings? })` (permission `program:status`, `cortexApiRange >=1.12`) heartbeats
+a long-running program. Cortex shows it as a running/stopped chip in each
+session named by `bindings`, and treats it as stopped after 45 s without a
+heartbeat.
 
 ## Shared models (App API 1.9)
 
