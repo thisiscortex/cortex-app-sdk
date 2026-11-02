@@ -11,10 +11,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appfactory123/cortex-app-sdk.git"
+    "url": "git+https://github.com/thisiscortex/cortex-app-sdk.git"
   },
-  "homepage": "https://github.com/appfactory123/cortex-app-sdk#readme",
-  "bugs": "https://github.com/appfactory123/cortex-app-sdk/issues",
+  "homepage": "https://github.com/thisiscortex/cortex-app-sdk#readme",
+  "bugs": "https://github.com/thisiscortex/cortex-app-sdk/issues",
   "type": "module",
   "main": "index.mjs",
   "types": "index.d.ts",

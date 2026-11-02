@@ -91,7 +91,7 @@ host happens to have wired up.
 ```json
 {
   "dependencies": {
-    "@cortex/app-sdk": "github:appfactory123/cortex-app-sdk#v0.2.0"
+    "@cortex/app-sdk": "github:thisiscortex/cortex-app-sdk#v0.2.0"
   }
 }
 ```
@@ -101,7 +101,7 @@ under bun, which does not parse semver ranges for git dependencies — it passes
 the literal string through as a git ref:
 
 ```
-bun add "github:appfactory123/cortex-app-sdk#semver:^0.2.0"
+bun add "github:thisiscortex/cortex-app-sdk#semver:^0.2.0"
   → GET https://codeload.github.com/.../legacy.tar.gz/semver:%5E0.2.0
 ```
 
@@ -131,7 +131,7 @@ subdirectory does not fail loudly; npm installs the repository ROOT under the
 dependency's name, and the breakage only surfaces at import time.
 
 ```sh
-scripts/release-app-sdk.sh https://github.com/appfactory123/cortex-app-sdk.git
+scripts/release-app-sdk.sh https://github.com/thisiscortex/cortex-app-sdk.git
 ```
 
 That script refuses to release a version tag that already exists, a dirty
